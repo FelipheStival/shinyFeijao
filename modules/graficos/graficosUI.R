@@ -2,7 +2,6 @@
 # Graficos menu item
 #==================================================================
 createGraficosItemFiltro = function() {
-  
   menuItem(text = NAME_CHART,
            tabName = "Graficos",
            icon = icon("line-chart"))
@@ -13,11 +12,10 @@ createGraficosItemFiltro = function() {
 # Graficos UI
 #==================================================================
 crateGraficosUI = function() {
-  
   tabItem(tabName = "Graficos",
           tabBox(
             title = NULL,
-            width = "100%",
+            width = 12,
             tabPanel(title = TAB_PANEl_BOXPLOT,
                      withSpinner(
                        plotOutput("boxplot",

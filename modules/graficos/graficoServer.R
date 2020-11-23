@@ -7,7 +7,6 @@
 # @data objeto do tipo data.frame com dados das estacoes
 #==================================================================
 graficoServer =  function(input, output, session, data) {
-  
   #Filtrando dados
   dadosGrafico = reactive({
     dados = NULL
@@ -21,20 +20,41 @@ graficoServer =  function(input, output, session, data) {
   
   #Grafico boxplot
   output$boxplot = renderPlot({
+    #Validacao
     validate(need(nrow(dadosGrafico()) > 0, MENSAGEM_DADOS_VAZIOS))
-    grafico.boxplot(dadosGrafico())
+    #Convertendo input para nome da coluna
+    colunaSelect = graficoProvider.nomeColuna(input$variavelSelect)
+    #Plotando grafico
+    grafico.boxplot(
+      dados = dadosGrafico(),
+      coluna = colunaSelect,
+      lab = input$variavelSelect
+    )
   })
   
   #Grafico heatmap
   output$heatmap = renderPlot({
+    #Validacao
     validate(need(nrow(dadosGrafico()) > 0, MENSAGEM_DADOS_VAZIOS))
-    grafico.heatmap(dadosGrafico())
+    #Convertendo input para coluna
+    colunaSelect = graficoProvider.nomeColuna(input$variavelSelect)
+    #Plotando grafico
+    grafico.heatmap(
+      dados = dadosGrafico(),
+      coluna = colunaSelect,
+      lab = input$variavelSelect
+    )
   })
   
   #Grafico ecdf
   output$ECDF = renderPlot({
+    #Validacao
     validate(need(nrow(dadosGrafico()) > 0, MENSAGEM_DADOS_VAZIOS))
-    grafico.ecdf(dadosGrafico())
+    #Convetendo input para coluna
+    colunaSelect = graficoProvider.nomeColuna(input$variavelSelect)
+    #Plotando grafico
+    grafico.ecdf(dados = dadosGrafico(),
+                 coluna = colunaSelect)
   })
   
 }

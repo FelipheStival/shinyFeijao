@@ -11,7 +11,7 @@ server = shinyServer(function(input, output,session) {
   #dados aplicacao
   dados = reactive({
     
-     data = read.csv(ENTRADA_DADOS,sep = ";",encoding = "UTF-8")
+     data = read.csv(ENTRADA_DADOS,sep = ";",encoding = "UTF-8",stringsAsFactors = F)
      return(data)
      
   })

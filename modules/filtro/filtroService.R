@@ -7,7 +7,6 @@
 # @data objeto do tipo data.frame com dados das estacoes
 #==================================================================
 filtroServer = function(input, output, session, data) {
-  
   #Atualizando selects menu
   observe({
     #Atualizando input estados
@@ -23,7 +22,6 @@ filtroServer = function(input, output, session, data) {
   observeEvent(input$estadoSelect, {
     #listando municipios por estados
     municipios = filtroProvider.listaCidades(data, input$estadoSelect)
-    
     #atualizando input cidade
     updateSelectInput(session = session,
                       inputId = "cidadeSelect",

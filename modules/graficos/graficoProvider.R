@@ -7,16 +7,37 @@
 # @return objeto string com nome da coluna
 #==================================================================
 graficoProvider.filtrarDados = function(dados, municipioSelect, estadoSelect) {
-  
   #Filtrando dados
-  filtrado = dados[  dados$NM_MUN   %in% municipioSelect &
-                     dados$SIGLA_UF %in% estadoSelect,]
+  index = which(dados$NM_MUN   %in% municipioSelect &
+                dados$SIGLA_UF %in% estadoSelect)
   
+  filtrado = dados[index, ]
   
   #Escolhendo datas de semeadura
-  filtrado = graficoProvider.prepararSemeadura(dados, estadoSelect)
+  filtrado = graficoProvider.prepararSemeadura(filtrado, estadoSelect)
+  
+  #Removendo NA
+  filtrado = filtrado[!is.na(filtrado$EMD), ]
   
   return(filtrado)
+}
+
+#==================================================================
+# Metodo para obter o nome da coluna pelo input var
+#
+# @param variavelSelect input com coluna selecionada
+# @return string com nome da coluna do data.frame
+#==================================================================
+graficoProvider.nomeColuna = function(variavelSelect) {
+  coluna = NULL
+  if (variavelSelect == VARIAVEL_PROD) {
+    coluna = "WRR14"
+  } else if (variavelSelect == VARIAVEL_CICLO) {
+    coluna = "DAE"
+  } else if (variavelSelect == VARIAVEL_FLOR) {
+    coluna = "DAYSFL"
+  }
+  return(coluna)
 }
 
 #==================================================================
@@ -27,7 +48,6 @@ graficoProvider.filtrarDados = function(dados, municipioSelect, estadoSelect) {
 # @return data.frame com datas de semeaduras selecionadas
 #==================================================================
 graficoProvider.prepararSemeadura = function(dados, estadoSelect) {
-  
   switch(
     estadoSelect,
     "AL" = {
@@ -60,8 +80,7 @@ graficoProvider.prepararSemeadura = function(dados, estadoSelect) {
           "21Abr",
           "1Mai",
           "11Mai",
-          "21Mai"
-          ,
+          "21Mai",
           "31Mai",
           "8Set",
           "18Set",
@@ -122,17 +141,21 @@ graficoProvider.prepararSemeadura = function(dados, estadoSelect) {
         dados$EMD,
         levels = c(281,	291,	301,
                    311,	321,	331,
-                   341,	351,	361),
+                   341,	351,	361, 1, 11, 21, 32),
         labels = c(
           "8Out",
           "18Out",
           "28Out",
           "7Nov",
-          "	17Nov",
+          "17Nov",
           "27Nov",
           "7Dez",
           "17Dez",
-          "27Dez"
+          "27Dez",
+          "1Jan",
+          "11Jan",
+          "21Jan",
+          "1Fev"
         )
       )
     },
@@ -209,8 +232,7 @@ graficoProvider.prepararSemeadura = function(dados, estadoSelect) {
         labels = c(
           "10Jul",
           "20Jul",
-          "30Jul"
-          ,
+          "30Jul",
           "9Ago",
           "19Ago",
           "29Ago",
@@ -361,45 +383,16 @@ graficoProvider.prepararSemeadura = function(dados, estadoSelect) {
     "RR" = {
       dados$EMD = factor(
         dados$EMD,
-        levels = c(
-          161,
-          171,
-          181,
-          191,
-          201,
-          211,
-          221,
-          231,
-          241,
-          251,
-          261,
-          271,
-          281,
-          291,
-          301,
-          311,
-          321,
-          331,
-          341,
-          351,
-          361,
-          1,
-          11,
-          21,
-          31,
-          41,
-          51
-        ),
+        levels = c(251,
+                   261,
+                   271,
+                   281,
+                   291,
+                   301,
+                   311,
+                   321,
+                   331),
         labels = c(
-          "10Jun",
-          "20Jun",
-          "30Jun",
-          "10Jul",
-          "20Jul",
-          "30Jul",
-          "9Ago",
-          "19Ago",
-          "29Ago",
           "8Set",
           "18Set",
           "28Set",
@@ -408,16 +401,7 @@ graficoProvider.prepararSemeadura = function(dados, estadoSelect) {
           "28Out",
           "7Nov",
           "17Nov",
-          "27Nov",
-          "7Dez",
-          "17Dez",
-          "27Dez",
-          "1Jan",
-          "11Jan",
-          "21Jan",
-          "31Jan",
-          "10Fev",
-          "20Fev"
+          "27Nov"
         )
       )
     },
@@ -448,8 +432,7 @@ graficoProvider.prepararSemeadura = function(dados, estadoSelect) {
           "22Mar",
           "1Abr",
           "11Abr",
-          "21Abr"
-          ,
+          "21Abr",
           "1Mai",
           "11Mai",
           "21Mai",
