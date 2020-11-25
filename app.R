@@ -18,6 +18,7 @@ app.LoadPackages = function()
   # Iniciando bibliotecas de analise
   require(ggplot2)
   require(hrbrthemes)
+  require(Cairo)
   
   #==============================================#
 }

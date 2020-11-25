@@ -8,18 +8,30 @@
 
 server = shinyServer(function(input, output,session) {
   
-  #dados aplicacao
-  dados = reactive({
-    
-     data = read.csv(ENTRADA_DADOS,sep = ";",encoding = "UTF-8",stringsAsFactors = F)
+  #dados analise exploratoria
+  dadosAnalise = reactive({
+     data = read.csv(ENTRADA_DADOS_ANALISE,sep = ";",encoding = "UTF-8",stringsAsFactors = F)
      return(data)
-     
+  })
+  
+  #dados clima
+  dadosClima = reactive({
+    data = read.csv(ENTRADA_DADOS_CLIMA,
+                    sep = ";",
+                    encoding = "UTF-8",
+                    stringsAsFactors = F,
+                    dec = ","
+                    )
+    return(data)
   })
   
   #Filtro service
-  filtroServer(input,output,session,dados())
+  filtroServer(input,output,session,dadosAnalise())
   
   #Grafico server
-  graficoServer(input,output,session,dados())
+  analiseServer(input,output,session,dadosAnalise())
+  
+  #Clima server
+  climaServer(input,output,session,dadosClima())
   
 })

@@ -12,7 +12,8 @@
    
    dashboardSidebar(
       sidebarMenu(
-         createGraficosItemFiltro(),
+         createAnaliseItemFiltro(),
+         createClimaItemFiltro(),
          createMenuItemFiltro()
       )),
    
@@ -24,7 +25,8 @@
    dashboardBody(
       includeCSS("www//css//style.css"),
       tabItems(
-         crateGraficosUI()
+         crateAnaliseUI(),
+         crateClimaUI()
       )
    )
    
