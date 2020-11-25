@@ -12,6 +12,7 @@ ESTADO_SELECT = "Escolhar o estado"
 VAR_SELECT = "Escolha a variavel"
 VARS_SELECT = "Escolha as variaveis"
 DATE_SELECT = "Escolha as datas de plantio"
+CULTIVAR_SELECT = "Selecione a cultivar"
 
 #======================= Nomes tab panel  ==============================
 TAB_PANEl_BOXPLOT = "Box plot"

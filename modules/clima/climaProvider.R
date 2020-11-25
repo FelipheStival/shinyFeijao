@@ -6,19 +6,31 @@
 # @param inputSemeadura vetor com input semeadura usuario
 # @return objeto data.frame com dados filtrados para gerar o grafico
 #==================================================================
-climaProvider.prepararDados = function(dados,inputSelectColuna,inputSemeadura,inputCidade,inputEstado) {
+climaProvider.prepararDados = function(dados,
+                                       inputSelectColuna,
+                                       inputSemeadura,
+                                       inputCidade,
+                                       inputEstado,
+                                       inputCultivar) {
+  #Verificando index todos
+  cultivarIndex = which(inputCultivar %in% "Todos")
   
   #Filtrando dados
   index = which(dados$NM_MUN   %in% inputCidade &
                 dados$SIGLA_UF %in% inputEstado)
   
-  filtrado = dados[index, ]
+  filtrado = dados[index,]
   
-  #Filtrando data de plantio
-  filtrado = filtrado[filtrado$DataSemeadura %in% inputSemeadura,] 
+  #Filtrando data
+  filtrado = filtrado[filtrado$DataSemeadura %in% inputSemeadura, ]
+  
+  #Filtrando cultivar
+  if (length(cultivarIndex) == 0) {
+    filtrado = filtrado[filtrado$Cultivar %in% inputCultivar, ]
+  }
   
   #Selecionando colunas
-  filtrado = filtrado[,c("DVS_1","DataSemeadura","Cultivar",inputSelectColuna)]  
+  filtrado = filtrado[, c("DVS_1", "DataSemeadura", "Cultivar", inputSelectColuna)]
   
   return(filtrado)
   

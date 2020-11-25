@@ -7,6 +7,7 @@
 # @data objeto do tipo data.frame com dados das estacoes
 #==================================================================
 climaServer =  function(input, output, session, data) {
+  
   #Filtrando dados grafico
   dadosChart = reactive({
     dados = climaProvider.prepararDados(
@@ -14,22 +15,31 @@ climaServer =  function(input, output, session, data) {
       input$variaveisSelect,
       input$dataPlantioSelect,
       input$cidadeSelect,
-      input$estadoSelect
+      input$estadoSelect,
+      input$cultivarSelect
     )
     return(dados)
   })
   
   
-  #Atualizando input semeadura com dados da tabela
+  #Atualizando input semeadura e cultivar
   observe({
-    updateSelectInput(
+    
+    updateSelectizeInput(
       session = session,
       inputId = "dataPlantioSelect",
       choices = unique(data$DataSemeadura),
-      selected = unique(data$DataSemeadura[1])
+      selected = "2Mar"
+    )
+    updateSelectizeInput(
+      session = session,
+      inputId = "cultivarSelect",
+      choices = c("Todos", unique(data$Cultivar)),
+      selected = "Todos"
     )
     
   })
+  
   
   #Observando e atualizando caso input esteja vazio
   observe({
@@ -47,6 +57,14 @@ climaServer =  function(input, output, session, data) {
         selected = unique(data$DataSemeadura[1])
       )
     }
+    if(is.null(input$cultivarSelect)){
+      updateSelectInput(
+        session = session,
+        inputId = "cultivarSelect",
+        selected = "Todos"
+      )
+    }
+    
   })
   
   #Plotando grafico
